@@ -1,11 +1,17 @@
 //este es el ejercicio de la primer entrega
-const listadoNotas = [5, 7, 3];
+// const listadoNotas = [5, 7, 3];
 
-/* const posicion = 1;
+// const posicion = 1;
 
-listadoNotas[2];    //3
+/* listadoNotas[2];    //3
 listadoNotas[0];    //5
-listadoNotas[posicion]; //7 */
+listadoNotas[posicion]; //7 */ 
+
+let notas1 = parseInt(prompt("Ingrese la primer nota del alumno"))
+let notas2 = parseInt(prompt("Ingrese la segunda nota del alumno"))
+let notas3 = parseInt(prompt("Ingrese la tercera nota del alumno"))
+
+let listadoNotas = [notas1, notas2, notas3];
 
 let sumadorDeNotas = 0;
 
@@ -20,12 +26,11 @@ if (promedio >= 7) {
     console.log("Aprobaste y aprobaste con un:" + promedio);
 } else {
     console.log("no aprobaste");
-}
-//hasta acá llegó el ejercicio
+} 
+//hasta acá llegó ejercicio
 
 
-
-const listadoDeProductos = ['zapatillas', 'remeras', 'chanclas'];
+/* const listadoDeProductos = ['zapatillas', 'remeras', 'chanclas'];
 
 let acumuladorDeTexto = "";
 
@@ -59,5 +64,33 @@ function validarStock(stockDelProducto) {
 }
 
 
-agregarAlCarrito("Zapatillas de toto", 0);
+agregarAlCarrito("Zapatillas de toto", 0); */
 
+
+
+/* function Producto(tituloParametro, stockParametro, precioParametro) { //Funcion constructora
+    this.titulo = tituloParametro;
+    this.stock = stockParametro;
+    this.precio = precioParametro;
+}
+
+const producto1 = new Producto("remera Nike", 10, 500);
+const producto2 = new Producto("Zapatillas adidas", 2, 1500);
+const producto3 = new Producto("Zapas Jagguar", 90, 9000);
+const producto4 = new Producto("chanclas locas", 1, 100000);
+
+/* ******************************************************************************************** */
+
+/*function Auto(objetoDelAuto) { //Funcion constructora
+    this.marca = objetoDelAuto.marca;
+    this.modelo = objetoDelAuto.modelo;
+    this.color = objetoDelAuto.color;
+}
+
+const auto = {
+    marca: "soy un titulo",
+    modelo: 900,
+    color: "Rojo"
+}; //objeto literal
+
+const miPrimerAuto = new Auto(auto); */
