@@ -65,7 +65,7 @@ calcNotas(notasCuaAl);
 //hasta acá llegó ejercicio
 
 
-/* const listadoDeProductos = ['zapatillas', 'remeras', 'chanclas'];
+ const listadoDeProductos = ['zapatillas', 'remeras', 'chanclas'];
 
 let acumuladorDeTexto = "";
 
@@ -99,11 +99,11 @@ function validarStock(stockDelProducto) {
 }
 
 
-agregarAlCarrito("Zapatillas de toto", 0); */
+agregarAlCarrito("Zapatillas de toto", 0); 
 
 
 
-/* function Producto(tituloParametro, stockParametro, precioParametro) { //Funcion constructora
+ function Producto(tituloParametro, stockParametro, precioParametro) { //Funcion constructora
     this.titulo = tituloParametro;
     this.stock = stockParametro;
     this.precio = precioParametro;
@@ -116,7 +116,7 @@ const producto4 = new Producto("chanclas locas", 1, 100000);
 
 /* ******************************************************************************************** */
 
-/*function Auto(objetoDelAuto) { //Funcion constructora
+/* function Auto(objetoDelAuto) { //Funcion constructora
     this.marca = objetoDelAuto.marca;
     this.modelo = objetoDelAuto.modelo;
     this.color = objetoDelAuto.color;
@@ -128,32 +128,9 @@ const auto = {
     color: "Rojo"
 }; //objeto literal
 
-const miPrimerAuto = new Auto(auto); */
+const miPrimerAuto = new Auto(auto);  */
 
-/* const carrito = [];
 
-function agregarAlCarrito(producto) {
-    // validar stock
-    // validar colores
-
-    carrito.push(producto);
-    console.log(carrito);
-}
-
-agregarAlCarrito({ id: 1, name: "Gorra adidas", price: 900 })
-agregarAlCarrito({ id: 2, name: "Zapas adidas", price: 200 })
-agregarAlCarrito({ id: 3, name: "Remera adidas", price: 100 })
-
-function borrarProducto(idDelProducto) {
-    const index = carrito.findIndex((producto) => producto.id === idDelProducto); //=> es una funcion flecha, ver funciones flecha (findIndex busca en objetos)
-    if (index != -1) {
-        carrito.splice(index, 1);
-    }
-
-    /*  console.log(index);
-    carrito.splice(index, 1); 
-    console.log(carrito);
-}
 
 borrarProducto(1);
 borrarProducto(2);
@@ -164,4 +141,4 @@ let cards = "";
 
 productos.forEach((producto) => {
     cards += "<div>" + producto + "</div>";
-}) */
+}) 
