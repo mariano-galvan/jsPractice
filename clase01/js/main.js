@@ -1,35 +1,37 @@
-const totalCarrito = localStorage.getItem('totalCarrito');
-const elementosCarrito = Json.parse(localStorage.getItem('carrito'));
-const carrito = elementosCarrito;
+document.addEventListener("DOMContentLoaded", () => {
+    createSquares();
+    function createSquares(){
+        const gameBoard = document.getElementById("board");
+        for (let index = 0; index < 30;   index++) {  
+            let square = document.createElement("div");
+            square.classList.add("square");
+            square.setAttribute("id", index + 1);
+            gameBoard.appendChild(square);
 
-let cards = "";
-
-/* productos.forEach((producto) => {
-    cards += `<div class='card d-flex col-4'>
-    <h2>${producto.title}</h2>
-    <button onclick='agregarAlCarrito("${producto.title}")'>Agregar al carrito</button>
-    </div>`
-}) */
-
-productos.forEach((producto) => {
-    const idButton = `add-cart${producto.id}`;
-    document.getElementById("seccion-card").innerHTML += `<div class='card d-flex col-4'>
-    <h2>${producto.title}</h2>
-    <button id = "${idButton}")'>Agregar al carrito</button>
-    </div>`
-})
-
-productos.forEach((producto) => {
-    const idButton = `add-cart${producto.id}`;
-    document.getElementById(idButton).addEventListener('click', () => {
-        carrito.push(producto);
-        const total = carrito.reduce((acumulador, producto) => acumulador + producto.price, 0);
-        document.getElementById("cart-total").innerHTML = carrito.length + Number(totalCarrito) + "- $" + total;
-        console.log(carrito);
-        localStorage.setItem('totalCarrito', carrito.length);
-    })
-})
-
-function agregarAlCarrito(tituloProducto) {
-    alert("Me agregaste!!" + tituloProducto);
+    }
 }
+});
+
+let notas1 = parseInt(prompt("Ingrese la primer nota del alumno"))
+let notas2 = parseInt(prompt("Ingrese la segunda nota del alumno"))
+let notas3 = parseInt(prompt("Ingrese la tercera nota del alumno"))
+
+let listadoNotas1 = [notas1, notas2, notas3];
+
+function calcNotas(listadoNotas){
+    let sumadorDeNotas = 0;
+    for (let i = 0; i < 3; i++) {
+        sumadorDeNotas = sumadorDeNotas + listadoNotas[i];
+        // sumadorDeNotas += listadoNotas[i]; es lo mismo que lo de arriba
+    }
+    const promedio = sumadorDeNotas / 3;
+    console.log(promedio);
+    
+    if (promedio >= 7) {
+        console.log("Aprobaste y aprobaste con un:" + promedio);
+    } else {
+        console.log("no aprobaste");
+    }
+}
+
+calcNotas(listadoNotas1)
