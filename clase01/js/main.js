@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     createSquares();
     addKeyboardClicks();
 
-    
+
 
     function initLocalStorage() {
         const storedCurrentWordIndex = window.localStorage.getItem("currentWordIndex");
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return "incorrect-letter";
     }
 
-    function updateWordIndex(){
+    function updateWordIndex() {
         window.localStorage.setItem("currentWordIndex", currentWordIndex + 1);
     }
 
@@ -169,7 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (guessedWord === currentWord) {
                 setTimeout(() => {
-                    const okSelected = window.confirm("Bien ahí!");
+                    const okSelected = Swal.fire(
+                        'Bien ahí!',
+                        'Adivinaste la palabra!',
+                        'success'
+                    );
                     if (okSelected) {
                         clearBoard();
                         showResult();
@@ -181,9 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (guessedWords.length === 6 && guessedWord !== currentWord) {
                 setTimeout(() => {
-                    const okSelected = window.confirm(
-                        `Te quedaste sin mas intentos, la palabra era: "${currentWord.toUpperCase()}".`
-                    );
+                    const okSelected = Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `Te quedaste sin mas intentos, la palabra era: "${currentWord.toUpperCase()}".`
+                    })
+
+
                     if (okSelected) {
                         clearBoard();
                         showLosingResult();
