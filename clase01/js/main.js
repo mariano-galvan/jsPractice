@@ -4,8 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentWordIndex = 0;
     let guessedWordCount = 0;
     let availableSpace = 1;
-    const words = ["zorro", "felpa", "pulpo", "cosas", "dorso"];
-    let currentWord = words[currentWordIndex];
+    // const words = ["zorro", "felpa", "pulpo", "cosas", "dorso"];
+    async function wordles() {
+        let words = [];
+
+        const res = await fetch('/words.json')
+
+        words = await res.json();
+        /* .then(res => res.json())
+        .then(response => {
+            words = response; */
+    }
+
+    let currentWord = wordles()[currentWordIndex];
 
     initLocalStorage();
     initHelpModal();
@@ -21,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.localStorage.setItem("currentWordIndex", currentWordIndex);
         } else {
             currentWordIndex = Number(storedCurrentWordIndex);
-            currentWord = words[currentWordIndex];
+            currentWord = wordles()[currentWordIndex];
         }
     }
 
