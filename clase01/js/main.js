@@ -1,28 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    let guessedWords = [[]];
     let currentWordIndex = 0;
     let guessedWordCount = 0;
     let availableSpace = 1;
-    // const words = ["zorro", "felpa", "pulpo", "cosas", "dorso"];
-    async function wordles() {
-        let words = [];
-
-        const res = await fetch('/words.json')
-
-        words = await res.json();
-        /* .then(res => res.json())
-        .then(response => {
-            words = response; */
-    }
-
-    let currentWord = wordles()[currentWordIndex];
+    let guessedWords = [[]];
+    const words = ["zorro", "felpa", "pulpo", "cosas", "dorso"];
+    let currentWord = words[currentWordIndex];
 
     initLocalStorage();
     initHelpModal();
     initStatsModal();
     createSquares();
     addKeyboardClicks();
+    loadLocalStorage();
 
 
 
@@ -32,8 +22,38 @@ document.addEventListener("DOMContentLoaded", () => {
             window.localStorage.setItem("currentWordIndex", currentWordIndex);
         } else {
             currentWordIndex = Number(storedCurrentWordIndex);
-            currentWord = wordles()[currentWordIndex];
+            currentWord = words[currentWordIndex];
         }
+    }
+
+    function loadLocalStorage() {
+        currentWordIndex = Number(window.localStorage.getItem("currentWordIndex")) || currentWordIndex
+        guessedWordCount = Number(window.localStorage.getItem("guessedWordCount")) || guessedWordCount
+        availableSpace = Number(window.localStorage.getItem("availableSpace")) || availableSpace
+        guessedWords = JSON.parse(window.localStorage.getItem("guessedWords")) || guessedWords
+
+        currentWord = words[currentWordIndex]
+
+        const storedBoardContainer = window.localStorage.getItem("boardContainer");
+        if (storedBoardContainer){
+        document.getElementById("board-container").innerHTML = storedBoardContainer;
+        }
+        
+        const storedKeyboardContainer = window.localStorage.getItem("keyboardContainer");
+        if (storedKeyboardContainer){
+        document.getElementById("keyboard-container").innerHTML = storedKeyboardContainer;
+
+        addKeyboardClicks();
+        }
+    }
+
+
+    function resetGame(){
+        window.localStorage.removeItem("guessedWordCount")
+        window.localStorage.removeItem("guessedWords")
+        window.localStorage.removeItem("keyboardContainer")
+        window.localStorage.removeItem("boardContainer")
+        window.localStorage.removeItem("availableSpace")
     }
 
     function createSquares() {
@@ -46,6 +66,16 @@ document.addEventListener("DOMContentLoaded", () => {
             gameBoard.appendChild(square);
 
         }
+    }
+
+    function preserveGameState() {
+        window.localStorage.setItem("guessedWords", JSON.stringify(guessedWords));
+
+        const keyboardContainer = document.getElementById("keyboard-container");
+        window.localStorage.setItem("keyboardContainer", keyboardContainer.innerHTML);
+
+        const boardContainer = document.getElementById("board-container");
+        window.localStorage.setItem("boardContainer", boardContainer.innerHTML)
     }
 
     function getCurrentWordArray() {
@@ -66,14 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function updateTotalGames() {
+        const totalGames = window.localStorage.getItem("totalGames") || 0
+        window.localStorage.setItem("totalGames", Number(totalGames) + 1);
+    }
+
     function showResult() {
         const finalResultEl = document.getElementById("final-score");
         finalResultEl.textContent = "Wordle 1 - Acertaste!";
+
+        const totalWins = window.localStorage.getItem("totalWins") || 0
+        window.localStorage.setItem("totalWins", Number(totalWins) + 1);
+
+        const currentStreak = window.localStorage.getItem("currentStreak") || 0
+        window.localStorage.setItem("currentStreak", Number(currentStreak) + 1);
     }
 
     function showLosingResult() {
         const finalResultEl = document.getElementById("final-score");
         finalResultEl.textContent = `Wordle 1 - No la pudiste adivinar!`;
+
+        window.localStorage.setItem("currentStreak", 0);
     }
 
     function clearBoard() {
@@ -161,6 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const firstLetterId = guessedWordCount * 5 + 1;
 
+            localStorage.setItem("availableSpace", availableSpace);
+
             const interval = 200;
             currentWordArray.forEach((letter, index) => {
                 setTimeout(() => {
@@ -173,10 +218,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         const keyboardEl = document.querySelector(`[data-key=${letter}]`);
                         keyboardEl.classList.add(tileClass);
                     }
+                    
+                    if (index === 4){
+                        preserveGameState();
+                    }
+
                 }, index * interval);
             });
 
             guessedWordCount += 1;
+            window.localStorage.setItem("guessedWordCount", guessedWordCount);
 
             if (guessedWord === currentWord) {
                 setTimeout(() => {
@@ -189,6 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         clearBoard();
                         showResult();
                         updateWordIndex();
+                        updateTotalGames();
+                        resetGame();
                     }
                     return;
                 }, 1200);
@@ -207,6 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         clearBoard();
                         showLosingResult();
                         updateWordIndex();
+                        updateTotalGames();
+                        resetGame();
                     }
                     return;
                 }, 1200);
@@ -249,6 +304,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function updateStatsModal() {
+        const currentStreak = window.localStorage.getItem("currentStreak")
+        const totalWins = window.localStorage.getItem("totalWins")
+        const totalGames = window.localStorage.getItem("totalGames")
+
+        document.getElementById('total-played').textContent = totalGames
+        document.getElementById('total-wins').textContent = totalWins
+        document.getElementById('current-streak').textContent = currentStreak
+
+        const winPct = Math.round((totalWins / totalGames) * 100) || 0;
+        document.getElementById('win-pct').textContent = winPct
+    }
+
     function initHelpModal() {
         const modal = document.getElementById("help-modal");
 
@@ -260,11 +328,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Cuando el usuario clickea en el boton, abrir la ventana
         btn.addEventListener("click", function () {
+
             modal.style.display = "block";
         });
 
         // Cuando el usuario clickea en <span> (x), cerrar la ventana
         span.addEventListener("click", function () {
+
             modal.style.display = "none";
         });
 
@@ -285,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         btn.addEventListener("click", function () {
-
+            updateStatsModal();
             modal.style.display = "block";
         });
 
